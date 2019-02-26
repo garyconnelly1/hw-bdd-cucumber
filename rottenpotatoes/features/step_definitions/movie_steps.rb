@@ -23,10 +23,10 @@ end
 # Make sure that one string (regexp) occurs before or after another one
 #   on the same page
 
-Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
+Then /I should see "(.*)" before "(.*)"/ do |m1, m2|
   #  ensure that that e1 occurs before e2.
-  #  page.body is the entire content of the page as a string.
-  regexp = /{e1}.*{e2}/m  #/m means match across newlines
+ 
+  regexp = /{m1}.*{m2}/m 
   page.body.should =~ regexp
  # fail "Unimplemented"
 end
@@ -62,7 +62,19 @@ Then /^I should see the following ratings: (.*)/ do |rating_list|
   rating_list.split(", ").each do |rating|  
      step %Q{I should see "#{rating}"} ## Trying the samw way as above.
   end
+ end
+ 
+ Then /^I should not see the following ratings: (.*)/ do |rating_list|
+  rating_list.split(", ").each do |rating|
+    (page.body=~/\Arating\z/) == nil 
   end
+end
+
+When(/^I check all movies$/) do
+  @movies.pluck(:rating).uniq.each do |rating| 
+    step %Q{I check "ratings_#{rating}"}
+  end
+end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
