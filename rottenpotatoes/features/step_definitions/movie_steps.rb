@@ -46,10 +46,23 @@ When /I check the following ratings: (.*)/ do |rating_list|
 end
 
 When /I uncheck the following ratings: (.*)/ do |rating_list|
-  rating_list.split(", ").each do |rating|
+  rating_list.split(", ").each do |rating| 
       step %Q{I uncheck "ratings_#{rating}"}
   end
 end
+
+###############################
+When(/^I press "([^"]*)"\.$/) do |arg1|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+###############################
+
+Then /^I should see the following ratings: (.*)/ do |rating_list|
+  rating_list.split(", ").each do |rating|  
+     step %Q{I should see "#{rating}"} ## Trying the samw way as above.
+  end
+  end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
