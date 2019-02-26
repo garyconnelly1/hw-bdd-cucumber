@@ -53,5 +53,8 @@ end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-  fail "Unimplemented"
+   @movies.each do |movie|
+    step %Q{I should see "#{movie.title}"}
+  end
+  #fail "Unimplemented"
 end
