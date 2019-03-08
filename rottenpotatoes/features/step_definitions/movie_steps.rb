@@ -26,8 +26,10 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |m1, m2|
   #  ensure that that e1 occurs before e2.
  
-  regexp = /{m1}.*{m2}/m 
-  page.body.should =~ regexp
+ ##### regexp = /{m1}.*{m2}/m 
+ ##### page.body.should =~ regexp
+  
+  expect(page.body.index(m1)).to be < page.body.index(m2)
   
   
   
@@ -57,7 +59,7 @@ When /I uncheck the following ratings: (.*)/ do |rating_list|
 end
 
 
-
+=begin
 
 Then /^I should see the following ratings: (.*)/ do |rating_list|
   rating_list.split(", ").each do |rating|  
@@ -76,6 +78,8 @@ When(/^I check all movies$/) do
     step %Q{I check "ratings_#{rating}"}
   end
 end
+
+=end
 
 
 Then /I should see all the movies/ do
