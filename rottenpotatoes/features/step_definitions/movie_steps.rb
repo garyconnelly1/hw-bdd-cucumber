@@ -24,16 +24,11 @@ end
 #   on the same page
 
 Then /I should see "(.*)" before "(.*)"/ do |m1, m2|
-  #  ensure that that e1 occurs before e2.
+  #  ensure that that m1 occurs before m2.
  
- ##### regexp = /{m1}.*{m2}/m 
- ##### page.body.should =~ regexp
+
+  expect(page.body.index(m1)).to be < page.body.index(m2) ## m1 is less than m2 on the page.
   
-  expect(page.body.index(m1)).to be < page.body.index(m2)
-  
-  
-  
- # fail "Unimplemented"
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -45,7 +40,7 @@ When /I check the following ratings: (.*)/ do |rating_list|
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
    rating_list.split(", ").each do |rating| ## Split all of the ratings given by a comma.
-    #####  step %Q{I check "ratings_#{rating}"}
+ 
     check("ratings[#{rating}]")
   end
  # fail "Unimplemented"
@@ -53,40 +48,17 @@ end
 
 When /I uncheck the following ratings: (.*)/ do |rating_list|
   rating_list.split(", ").each do |rating| 
-#####      step %Q{I uncheck "ratings_#{rating}"}
+
        uncheck("ratings[#{rating}]")
   end
 end
 
 
-=begin
-
-Then /^I should see the following ratings: (.*)/ do |rating_list|
-  rating_list.split(", ").each do |rating|  
-     step %Q{I should see "#{rating}"} ## Trying the samw way as above.
-  end
- end
- 
- Then /^I should not see the following ratings: (.*)/ do |rating_list|
-  rating_list.split(", ").each do |rating|
-    (page.body=~/\Arating\z/) == nil 
-  end
-end
-
-When(/^I check all movies$/) do
-  @movies.pluck(:rating).uniq.each do |rating| 
-    step %Q{I check "ratings_#{rating}"}
-  end
-end
-
-=end
 
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-#####   @movies.each do |movie|
-#####    step %Q{I should see "#{movie.title}"}
-#####  end
- expect(page).to have_selector('tbody tr', count: Movie.count)
-  #fail "Unimplemented"
+
+ expect(page).to have_selector('tbody tr', count: Movie.count) ## Expect the page to have the same amount of movies as is in the database.
+ 
 end
