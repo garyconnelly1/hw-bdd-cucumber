@@ -32,14 +32,28 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
   # enter step(s) to ensure that PG and R movies are visible
   # enter step(s) to ensure that other movies are not visible
   
-  When I check the following ratings: PG, R
-  When I uncheck the following ratings: G, PG-13
-  When I press "Submit" ## Might have to change this, didn't know what to put here.
-  Then I should see the following ratings: PG, R
-  Then I should not see the following ratings: G, PG-13
+  Given I check the following ratings: PG, R
+  And I uncheck the following ratings: G, PG-13
+  And I press "Refresh"
+#####  Then I should see the following ratings: PG, R
+#####  Then I should not see the following ratings: G, PG-13
+  Then I should see "The Incredibles"
+  And I should see "Raiders of the Lost Ark"
+  And I should see "The Terminator"
+  And I should see "When Harry Met Sally"
+  And I should see "Amelie"
+  
+  # enter step(s) to ensure that other movies are not visible
+  And I should not see "The Help"
+  And I should not see "Chocolat"
+  And I should not see "2001: A Space Odyssey"
+  And I should not see "Chicken Run"
+  And I should not see "Aladdin"
  
   
 Scenario: all ratings selected
   # see assignment
   When I check all movies
   Then I should see all the movies 
+
+ 

@@ -28,6 +28,9 @@ Then /I should see "(.*)" before "(.*)"/ do |m1, m2|
  
   regexp = /{m1}.*{m2}/m 
   page.body.should =~ regexp
+  
+  
+  
  # fail "Unimplemented"
 end
 
@@ -40,23 +43,21 @@ When /I check the following ratings: (.*)/ do |rating_list|
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
    rating_list.split(", ").each do |rating| ## Split all of the ratings given by a comma.
-      step %Q{I check "ratings_#{rating}"}
+    #####  step %Q{I check "ratings_#{rating}"}
+    check("ratings[#{rating}]")
   end
  # fail "Unimplemented"
 end
 
 When /I uncheck the following ratings: (.*)/ do |rating_list|
   rating_list.split(", ").each do |rating| 
-      step %Q{I uncheck "ratings_#{rating}"}
+#####      step %Q{I uncheck "ratings_#{rating}"}
+       uncheck("ratings[#{rating}]")
   end
 end
 
-###############################
-When(/^I press "([^"]*)"\.$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
 
-###############################
+
 
 Then /^I should see the following ratings: (.*)/ do |rating_list|
   rating_list.split(", ").each do |rating|  
@@ -76,10 +77,12 @@ When(/^I check all movies$/) do
   end
 end
 
+
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-   @movies.each do |movie|
-    step %Q{I should see "#{movie.title}"}
-  end
+#####   @movies.each do |movie|
+#####    step %Q{I should see "#{movie.title}"}
+#####  end
+ expect(page).to have_selector('tbody tr', count: Movie.count)
   #fail "Unimplemented"
 end
